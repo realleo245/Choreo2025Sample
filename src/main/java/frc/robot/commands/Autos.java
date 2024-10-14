@@ -21,6 +21,8 @@ public final class Autos {
 
     AutoTrajectory trajectory = factory.trajectory("AmpToSource", loop);
 
+    return loop.cmd();
+
   }
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
