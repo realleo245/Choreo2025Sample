@@ -33,7 +33,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController(), null, null, null)
+    // I don't feel like creating an auto factory right now
+    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController, null, null, null)
     // Configure the trigger bindings
     configureBindings();
   }

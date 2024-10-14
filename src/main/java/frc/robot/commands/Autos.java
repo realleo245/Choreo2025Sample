@@ -5,6 +5,9 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ExampleSubsystem;
+import choreo.auto.AutoFactory;
+import choreo.auto.AutoLoop;
+import choreo.auto.AutoTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 
@@ -13,7 +16,12 @@ public final class Autos {
   public static Command exampleAuto(ExampleSubsystem subsystem) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
+  public Command ampToSource(AutoFactory factory) {
+    AutoLoop loop = new AutoLoop("AmpToSource");
 
+    AutoTrajectory trajectory = factory.trajectory("AmpToSource", loop);
+
+  }
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
   }
