@@ -4,13 +4,18 @@
 
 package frc.robot;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import choreo.Choreo;
+import choreo.Choreo.ControlFunction;
 import choreo.auto.AutoFactory;
+import choreo.auto.AutoFactory.ChoreoAutoBindings;
+import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,8 +38,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    ControlFunction<SwerveSample> controller = 
+      (curPose, sample)-> {return new ChassisSpeeds();};
     // I don't feel like creating an auto factory right now
-    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController, null, null, null)
+    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, controller, m_swerveDrive::setChassisSpeeds, AutoConstants::shouldFlipPath, new ChoreoAutoBindings());
     // Configure the trigger bindings
     configureBindings();
   }
