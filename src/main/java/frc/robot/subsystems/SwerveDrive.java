@@ -107,7 +107,7 @@ public class SwerveDrive extends SubsystemBase {
         return new Rotation2d();
     }
     // Mostly copied from the release notes
-    public void choreoController(Pose2d curPose, SwerveSample sample) {
+    public ChassisSpeeds choreoController(Pose2d curPose, SwerveSample sample) {
         PIDController xController = new PIDController(0.2, 0, 0);
         PIDController yController = new PIDController(0.2, 0, 0);
         PIDController rController = new PIDController(0.2, 0, 0);
@@ -118,6 +118,7 @@ public class SwerveDrive extends SubsystemBase {
                 rController.calculate(curPose.getRotation().getRadians(), sample.heading) + sample.omega
             ), curPose.getRotation());
       this.setChassisSpeeds(speeds);
+        return speeds;
     }
     
     @Override

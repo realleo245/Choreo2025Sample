@@ -41,7 +41,7 @@ public class RobotContainer {
     ControlFunction<SwerveSample> controller = 
       (curPose, sample)-> {return new ChassisSpeeds();};
     // I don't feel like creating an auto factory right now
-    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, controller, m_swerveDrive::setChassisSpeeds, AutoConstants::shouldFlipPath, new ChoreoAutoBindings());
+    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController, m_swerveDrive::setChassisSpeeds, AutoConstants::shouldFlipPath, new ChoreoAutoBindings());
     // Configure the trigger bindings
     configureBindings();
   }
