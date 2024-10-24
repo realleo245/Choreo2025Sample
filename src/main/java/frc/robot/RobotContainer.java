@@ -11,9 +11,9 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SwerveDrive;
 import choreo.Choreo;
-import choreo.Choreo.ControlFunction;
 import choreo.auto.AutoFactory;
-import choreo.auto.AutoFactory.ChoreoAutoBindings;
+import choreo.auto.AutoFactory.AutoBindings;
+import choreo.trajectory.ProjectFile;
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +38,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController, m_swerveDrive::setChassisSpeeds, AutoConstants::shouldFlipPath, new ChoreoAutoBindings());
+    m_autoFactory = Choreo.createAutoFactory(m_swerveDrive, m_swerveDrive::getPose, m_swerveDrive::choreoController, AutoConstants::shouldFlipPath, new AutoBindings());
     // Configure the trigger bindings
     configureBindings();
   }
@@ -68,7 +68,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    ProjectFile file = Choreo.getProjectFile();
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.exampleAuto(m_exampleSubsystem, file);
   }
 }

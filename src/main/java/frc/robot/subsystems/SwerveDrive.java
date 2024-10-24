@@ -107,10 +107,11 @@ public class SwerveDrive extends SubsystemBase {
         return new Rotation2d();
     }
     // Mostly copied from the release notes
-    public ChassisSpeeds choreoController(Pose2d curPose, SwerveSample sample) {
+    public void choreoController(Pose2d curPose, SwerveSample sample) {
         PIDController xController = new PIDController(0.2, 0, 0);
         PIDController yController = new PIDController(0.2, 0, 0);
         PIDController rController = new PIDController(0.2, 0, 0);
+        
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             new ChassisSpeeds(
                 xController.calculate(curPose.getX(), sample.x) + sample.vx,
@@ -118,8 +119,20 @@ public class SwerveDrive extends SubsystemBase {
                 rController.calculate(curPose.getRotation().getRadians(), sample.heading) + sample.omega
             ), curPose.getRotation());
       this.setChassisSpeeds(speeds);
-        return speeds;
     }
+    // public ChassisSpeeds choreoController(Pose2d curPose, SwerveSample sample) {
+    //     PIDController xController = new PIDController(0.2, 0, 0);
+    //     PIDController yController = new PIDController(0.2, 0, 0);
+    //     PIDController rController = new PIDController(0.2, 0, 0);
+    //     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+    //         new ChassisSpeeds(
+    //             xController.calculate(curPose.getX(), sample.x) + sample.vx,
+    //             yController.calculate(curPose.getY(), sample.y) + sample.vy,
+    //             rController.calculate(curPose.getRotation().getRadians(), sample.heading) + sample.omega
+    //         ), curPose.getRotation());
+    //   this.setChassisSpeeds(speeds);
+    //     return speeds;
+    // }
     
     @Override
     public void periodic() {
