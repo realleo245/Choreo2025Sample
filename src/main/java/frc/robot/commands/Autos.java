@@ -25,7 +25,7 @@ public final class Autos {
   public static Command exampleAuto(ExampleSubsystem subsystem, ProjectFile file) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
-  public Command ampToSource(AutoFactory factory, ProjectFile file, SwerveDrive swerveDrive) {
+  public static Command ampToSource(AutoFactory factory, ProjectFile file, SwerveDrive swerveDrive) {
     Choreo.loadTrajectory("Amp to Source");
     AutoLoop loop = new AutoLoop("AmpToSource");
     AutoTrajectory trajectory = factory.trajectory("AmpToSource", loop);
@@ -36,7 +36,19 @@ public final class Autos {
     
 
     return loop.cmd();
+  }
 
+  public static Command sabotage(AutoFactory factory, ProjectFile file, SwerveDrive swerveDrive) {
+    Choreo.loadTrajectory("Sabotage");
+    AutoLoop loop = new AutoLoop("Sabotage");
+    AutoTrajectory trajectory = factory.trajectory("Sabotage", loop);
+
+    loop.enabled()
+      .onTrue(new InstantCommand(() -> swerveDrive.resetPose(trajectory.getInitialPose().get()))
+      .andThen(trajectory.cmd()));
+    
+
+    return loop.cmd();
   }
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
